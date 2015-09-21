@@ -39,7 +39,7 @@ var Engine = (function(global) {
 
         // When the game is in play and not paused, we are rendering and updating.
         // When the game is paused, we will not update.
-        if (score >= 0) {
+        if (player.score >= 0) {
 
             if (gamePlay) { // The game is in play.
 
@@ -52,7 +52,7 @@ var Engine = (function(global) {
 
                 // We're 'disabling' update when we pause the game.
                 if (pause) {
-                    pauseScreen(ctx, canvas.width, canvas.height);
+                    pauseScreen.display();
                 } else {
                     update(dt);
                 }
@@ -70,7 +70,7 @@ var Engine = (function(global) {
             win.requestAnimationFrame(main);
 
         } else { // The game is over when score is less than zero. All action stops.
-            gameOver(ctx, canvas.width, canvas.height);
+            gameOverScreen.display();
         }
     }
 
@@ -86,10 +86,10 @@ var Engine = (function(global) {
     // of the functions which may need to update entity's data.
     function update(dt) {
         updateEntities(dt);
-        checkCollisions();
-        checkGems();
-        clock(dt);
-        checkTimer();
+        player.checkCollisions();
+        player.checkGems();
+        player.clock(dt);
+        player.checkTimer();
     }
 
     // This updateEntities function is called by the update function.
