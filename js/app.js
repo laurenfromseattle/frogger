@@ -332,6 +332,8 @@ var Player = function(x, y) {
     this.width = 101; // Assigns width to sprite (needed to calculate collisions)
     this.score = 0; // Initial score
     this.timer = 10; // Initial time
+    this.moveHorizontal = 100; // Distance player will move along x-axis
+    this.moveVertical = 85; // Distance player will move along y-axis
 };
 
 // update method for Player
@@ -352,21 +354,21 @@ Player.prototype.handleInput = function(allowedKeys) {
     switch(allowedKeys) {
         case 'left':
             if (this.x > 2 && !pause) {
-                this.x -=  100;
+                this.x -= this.moveHorizontal;
                 break;
             } else {
                 break;
             }
         case 'right':
             if (this.x < 402 && !pause) {
-                this.x += 100;
+                this.x += this.moveHorizontal;
                 break;
             } else {
                 break;
             }
         case 'up':
             if (this.y > 60 && !pause) {
-                this.y -= 85;
+                this.y -= this.moveVertical;
                 break;
             } else if (this.y === 60 && !pause) {
                 this.score += 5;
@@ -379,7 +381,7 @@ Player.prototype.handleInput = function(allowedKeys) {
             }
         case 'down':
             if (this.y < 400 && !pause) {
-                this.y += 85;
+                this.y += this.moveVertical;
                 break;
             } else {
                 break;
@@ -460,21 +462,22 @@ Player.prototype.checkCollisions = function() {
 // Instance of player
 var player = new Player(202, 400);
 
-// Instances of the Enemy Class
-var enemyOne = new Enemy(230);
-var enemyTwo = new Enemy(230);
-var enemyThree = new Enemy(145);
-var enemyFour = new Enemy(145);
-var enemyFive = new Enemy(60);
-var enemySix = new Enemy(60);
-
-// Array of Enemies
+// Array of enemies
 var allEnemies = [];
 
-allEnemies.push(enemyOne, enemyTwo, enemyThree, enemyFour, enemyFive, enemySix);
+// Function that instantiates enemies, pushes them into allEnemies array, and returns allEnemies array.
+var instantiateEnemies = function() {
+    var enemyInstances = [60, 60, 145, 145, 230, 230]; // You can add more instances here. These are y-coordinates.
+    var numberOfEnemyInstances = enemyInstances.length; // Number of instances. Used in for loop below.
+    for (var i = 0; i < numberOfEnemyInstances; i++) {
+        var enemy = new Enemy(enemyInstances[i]);
+        allEnemies.push(enemy);
+    }
+    return allEnemies;
+};
 
-// We will need this to set up the loop for checking collisions.
-var enemyArrayLength = allEnemies.length;
+// We instantiate enemies and store length of array in enemyArrayLength (used in collisions).
+var enemyArrayLength = instantiateEnemies().length;
 
 // Instance of the Gem class
 var gem = new Gem();
