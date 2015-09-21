@@ -1,3 +1,5 @@
+"use strict";
+
 /* RESOURCES USED FOR THIS PROJECT
  *
  * getRandomInt:
@@ -130,11 +132,11 @@ var pauseScreen = function(context, width, height) {
 
 // Function to draw Pause message on gameboard.
 var pauseText = function(width, height) {
-    var width = (width - 200) / 2; // (Width of canvas - scoreBoard) / 2
-    var height = height / 2;
+    width = (width - 200) / 2; // (Width of canvas - scoreBoard) / 2
+    height = height / 2;
     ctx.font = '700 24px Kalam';
     ctx.fillStyle = '#000';
-    ctx.textAlign = 'center'
+    ctx.textAlign = 'center';
     ctx.fillText('GAME IS PAUSED', width, height);
     ctx.font = '400 18px Kalam';
     ctx.fillText('Hit spacebar again', width, height + 40);
@@ -323,7 +325,7 @@ var checkCollisions = function() {
     var enemyRightEdge, // x-coordinate of right side of enemy sprite
         playerLeftEdge, // x-coordinate of left side of player sprite (start of collision space)
         playerRightEdge; // x-coordinate of right side of player sprite (end of collision space)
-    for (i = 0; i < enemyArrayLength; i++) {
+    for (var i = 0; i < enemyArrayLength; i++) {
         if (allEnemies[i].y == player.y) { // If the player and enemy have the same y-coordinate
             enemyRightEdge =  allEnemies[i].x + allEnemies[i].width;
             playerLeftEdge = player.x + player.offsetX;
@@ -386,11 +388,11 @@ var gameOver = function(context, width, height) {
 
 // Game Over message on board
 var gameOverText = function(width, height) {
-    var width = (width - 200) / 2; // (Width of canvas - scoreBoard) / 2
-    var height = height / 2;
+    width = (width - 200) / 2; // (Width of canvas - scoreBoard) / 2
+    height = height / 2;
     ctx.font = '700 24px Kalam';
     ctx.fillStyle = '#000';
-    ctx.textAlign = 'center'
+    ctx.textAlign = 'center';
     ctx.fillText('GAME IS OVER. YOU LOSE.', width, height);
     ctx.font = '400 18px Kalam';
     ctx.fillText('Refresh the window', width, height + 40);
@@ -489,4 +491,3 @@ var startScreen = function() {
     ctx.strokeStyle = '#000';
     roundRect(ctx, 5, 5, 695, 596, 5, false, true);
 };
-
