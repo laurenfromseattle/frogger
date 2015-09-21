@@ -39,10 +39,10 @@ var getRandomInt = function(min, max) {
  * @param {Boolean} stroke Whether to stroke the rectangle. Defaults to true.
  */
 var roundRect = function(ctx, x, y, width, height, radius, fill, stroke) {
-  if (typeof stroke == "undefined" ) {
+  if (typeof stroke == 'undefined' ) {
     stroke = true;
   }
-  if (typeof radius === "undefined") {
+  if (typeof radius === 'undefined') {
     radius = 5;
   }
   ctx.beginPath();
