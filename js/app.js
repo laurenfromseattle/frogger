@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /* RESOURCES USED FOR THIS PROJECT
  *
@@ -341,8 +341,9 @@ var Enemy = function(y) {
 // update method for Enemy
 // Parameter dt is a time delta between ticks
 Enemy.prototype.update = function(dt) {
+    var boardWidth = 505; // Width of canvas - width of scoreboard
     this.x += this.speed * dt; // Updates location of enemy
-    if (this.x > 505) { // Checks to see if enemy is off canvas.
+    if (this.x > boardWidth) { // Checks to see if enemy is off gameboard.
         this.reset(); // Resets enemy
     }
 };
