@@ -13,6 +13,45 @@
  * http://js-bits.blogspot.com/2010/07/canvas-rounded-corner-rectangles.html
  */
 
+/* SOUNDTRACK/SOUND EFFECTS
+ * Creative Commons Attribution 3.0 Unported
+ * http://creativecommons.org/licenses/by/3.0/legalcode
+ * Digital Album: Songs from an Unmade World
+ * Artist: Visager
+ * http://visager.bandcamp.com/
+ *
+ * Soundtrack (unedited 11. The Final Road)
+ * Game Over (edited snippet from 1. Title Theme)
+ *
+ * CC0 1.0 Universal
+ * http://creativecommons.org/publicdomain/zero/1.0/legalcode
+ * https://www.freesound.org/people/ggctuk/sounds/80551/
+ * Author: ggctuk
+ *
+ * Bug bite
+ *
+ * Creative Commons Attribution 3.0 Unported
+ * http://creativecommons.org/licenses/by/3.0/legalcode
+ * https://www.freesound.org/people/NenadSimic/sounds/171696/
+ * Artist: NemadSimic
+ *
+ * Collect gem (edited snippet)
+ *
+ * CC0 1.0 Universal
+ * http://creativecommons.org/publicdomain/zero/1.0/legalcode
+ * https://www.freesound.org/people/petenice/sounds/9508/
+ * Author: petenice
+ *
+ * Water splash (edited snippet)
+ *
+ * CC0 1.0 Universal
+ * http://creativecommons.org/publicdomain/zero/1.0/legalcode
+ * https://www.freesound.org/people/cognito%20perceptu/sounds/17468/
+ * Author: cognito perceptu
+ *ch
+ * Buzzer (unedited)
+ */
+
 /*
  * GLOBAL METHODS
  */
@@ -336,6 +375,13 @@ var Player = function(x, y) {
     this.moveVertical = 85; // Distance player will move along y-axis
 };
 
+// Plays sound effect with given id
+// ids include: bite, splash, collect and gameOver
+Player.prototype.soundEffect = function(id) {
+    var sound = document.getElementById(id);
+    sound.play();
+};
+
 // update method for Player
 // TODO: I don't have any idea what to do with this.
 Player.prototype.update = function(dt) {
@@ -372,6 +418,7 @@ Player.prototype.handleInput = function(allowedKeys) {
                 break;
             } else if (this.y === 60 && !pause) {
                 this.score += 5;
+                this.soundEffect('splash');
                 this.reset();
                 this.timer = 10;
                 gem.update();
@@ -416,6 +463,7 @@ Player.prototype.clock = function(dt) {
 Player.prototype.checkTimer = function() {
     if (this.timer <= 0) {
         this.score -= 10; // Lose 10 points if you run out of time.
+        this.soundEffect('buzzer');
         this.reset(); // Player is reset.
         this.timer = 10; // Timer is reset to 10.
         gem.update(); // Gem location is updated.
@@ -426,6 +474,7 @@ Player.prototype.checkTimer = function() {
 Player.prototype.checkGems = function() {
     if ((this.x === gem.x) && (this.y === gem.y)) { // Collection zone
         this.score += 5; // Picking up a gem gets you five points
+        this.soundEffect('collect');
         gem.x = -100; // Hides gem off screen
         gem.y = -100;
     }
@@ -443,6 +492,7 @@ Player.prototype.checkCollisions = function() {
             playerRightEdge = this.x + this.width - 2 * this.offsetX;
             if (enemyRightEdge > playerLeftEdge && enemyRightEdge < playerRightEdge) { // Collision zone
                 this.score -= 5; // Collision means you lose five points
+                this.soundEffect('bite');
                 if (this.score < 0) { // This checks if game is over
                     gamePlay = false;
                 } else {
