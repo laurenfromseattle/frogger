@@ -18,16 +18,47 @@ var Engine = (function(global) {
 
     // Predefine the variables we'll be using within this scope.
     // Create the canvas element and grab the 2D context for that canvas.
+    // Create the audio elements
     var doc = global.document,
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
+        music = doc.createElement('audio'),
+        gameOver = doc.createElement('audio'),
+        bite = doc.createElement('audio'),
+        splash = doc.createElement('audio'),
+        collect = doc.createElement('audio'),
+        buzzer = doc.createElement('audio'),
         lastTime;
 
-    // Set the canvas elements height/width and add it to the DOM.
+    // Set the canvas element height/width and add it to the DOM.
+    // Append audio elements to DOM and give them ids.
     canvas.width = 705;
     canvas.height = 606;
+
     doc.body.appendChild(canvas);
+    doc.body.appendChild(music);
+    doc.body.appendChild(gameOver);
+    doc.body.appendChild(bite);
+    doc.body.appendChild(splash);
+    doc.body.appendChild(collect);
+    doc.body.appendChild(buzzer);
+
+    music.setAttribute('id', 'music');
+    gameOver.setAttribute('id', 'gameOver');
+    bite.setAttribute('id', 'bite');
+    splash.setAttribute('id', 'splash');
+    collect.setAttribute('id', 'collect');
+    buzzer.setAttribute('id', 'buzzer');
+
+    // Set the audio element src properties
+    music.loop = true;
+    music.src = 'sounds/background-music.mp3';
+    gameOver.src = 'sounds/game-over.mp3';
+    bite.src = 'sounds/bite.mp3';
+    splash.src = 'sounds/splash.mp3';
+    collect.src = 'sounds/gem.mp3';
+    buzzer.src = 'sounds/buzzer.mp3';
 
     // The main function serves as the kickoff point for the game loop itself.
     // It handles properly calling the update and render methods.
@@ -53,12 +84,15 @@ var Engine = (function(global) {
                 // We're 'disabling' update when we pause the game.
                 if (pause) {
                     pauseScreen.display();
+                    music.pause();
                 } else {
                     update(dt);
+                    music.play();
                 }
 
             } else { // The game is not in play because user hit enter.
                 startScreen(); // Draws the start screen.
+                music.pause();
             }
 
             // Set our lastTime variable which is used to determine the time delta
@@ -71,6 +105,8 @@ var Engine = (function(global) {
 
         } else { // The game is over when score is less than zero. All action stops.
             gameOverScreen.display();
+            music.pause();
+            gameOver.play();
         }
     }
 
